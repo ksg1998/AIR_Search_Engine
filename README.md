@@ -63,8 +63,8 @@ Need to make inverted index for each column and all columns combined.
   $ python3 main.py
 ```
 ## Overview
-![Free Text query](/images/freetext.png)
-![Wild Card query](/images/wildcard.png)
+![Free Text query](/Images/freetext.png)
+![Wild Card query](/Images/wildcard.png)
 ## About the Team
 <ul>
   <li><a href = "https://github.com/bharaniuk">Bharani Ujjaini Kempaiah</a></li>
