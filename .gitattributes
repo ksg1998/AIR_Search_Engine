@@ -1,1 +1,13 @@
 snippet.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/.*txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/length.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/permutermall.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/station.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/iashowid.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/iapreviewthumb.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/matchdatetime.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/show.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/snippet.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/twothreetreeall.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/url.txt filter=lfs diff=lfs merge=lfs -text
+Inverted_Index_Files/all.txt filter=lfs diff=lfs merge=lfs -text
