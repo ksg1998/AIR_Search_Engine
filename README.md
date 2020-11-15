@@ -19,12 +19,12 @@ ElasticSearch
 
 Need to make inverted index for each column and all columns combined.
 
-      python3 CreatingDictionary.py
+    python3 CreatingDictionary.py
 
 
  2) Creating the Permuterm index for the input data using the inverted index file obtained in the previous step.
-
-      python CreatePermuterm.py
+       
+    python CreatePermuterm.py
 
 
  3) Creating a two-three tree used for implementing wildcard queries. Preprocessed data is used as the input.
