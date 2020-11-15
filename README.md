@@ -19,8 +19,10 @@ Largely, the functionalities implemented include:
 Elasticsearch is a search engine based on the Lucene library and it has been used as a benchmark for a comparison study.<br>
 
 ## Overview
+<br>
 Building the search engine
 ![Building the search engine](/Images/workflow1.PNG)
+<br>
 Handling user query
 ![Handling user query](/Images/workflow2.PNG)
 ## Software Requirements:
@@ -43,27 +45,27 @@ Handling user query
 
  1) Pre-Processing the input data and creating inverted index and saving to disk
 
-Need to make inverted index for each column and all columns combined.
+Need to make inverted index for each column and all columns combined
 ```bash
   $ python3 CreatingDictionary.py
 ```
 
- 2) Creating the Permuterm index for the input data using the inverted index file obtained in the previous step.
+ 2) Creating the Permuterm index for the input data using the inverted index file obtained in the previous step
 ```bash    
   $ python CreatePermuterm.py
 ```
 
- 3) Creating a two-three tree used for implementing wildcard queries. Preprocessed data is used as the input.
+ 3) Creating a two-three tree used for implementing wildcard queries. Preprocessed data is used as the input
 ```bash
   $ python3 CreateTwoThree.py
 ```
 
- 4) Running Our Search:
+ 4) Running Our Search
 ```bash
   $ python3 demo.py
 ```
 
- 5) Comparing Our Search with Elastic:
+ 5) Comparing Our Search with Elastic
 ```bash
   $ python3 main.py
 ```
