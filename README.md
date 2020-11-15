@@ -1,4 +1,4 @@
-# Search Engine
+## Search Engine
 This Search engine has been built as part of the Fall 2020 offering of the Algorithms for Information Retrieval Course taught by Prof. Bhaskar Jyothi Das at PES University, Bangalore, India. <br>
 The search engine has been built on an Environmental News NLP archive corpus consisting of 418 documents. 
 The search engine supports the following types of queries:
@@ -18,6 +18,11 @@ Largely, the functionalities implemented include:
 </ul>
 Elasticsearch is a search engine based on the Lucene library and it has been used as a benchmark for a comparison study.<br>
 
+## Overview
+Building the search engine
+![Building the search engine](/Images/workflow1.PNG)
+Handling user query
+![Handling user query](/Images/workflow2.PNG)
 ## Software Requirements:
 <ul>
  <li>Python3 - <a href="https://www.python.org/">Download & Install Python3</a>, and ensure that it is latest version to avoid any version clashes.</li>
@@ -63,8 +68,10 @@ Need to make inverted index for each column and all columns combined.
   $ python3 main.py
 ```
 ## Overview
-![Free Text query](/Images/freetext.png)
-![Wild Card query](/Images/wildcard.png)
+Free Text query
+![Free Text query](/Images/FreeTextQuery.png)
+Wild Card query
+![Wild Card query](/Images/WildCardQuery.png)
 ## About the Team
 <ul>
   <li><a href = "https://github.com/bharaniuk">Bharani Ujjaini Kempaiah</a></li>
