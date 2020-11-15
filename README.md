@@ -1,6 +1,6 @@
 ## Search Engine
-This Search engine has been built as part of the Fall 2020 offering of the Algorithms for Information Retrieval Course taught by Prof. Bhaskar Jyothi Das at PES University, Bangalore, India. <br>
-The search engine has been built on an Environmental News NLP archive corpus consisting of 418 documents. 
+This Search engine has been built as part of the Fall 2020 offering of the **Algorithms for Information Retrieval** Course taught by Prof. Bhaskar Jyothi Das at PES University, Bangalore, India. <br>
+The search engine has been built on an <a href = "https://www.kaggle.com/amritvirsinghx/environmental-news-nlp-dataset">Environmental News NLP archive</a> corpus consisting of 418 documents. 
 The search engine supports the following types of queries:
 <ul>
  <li>free text queries</li>
@@ -19,10 +19,8 @@ Largely, the functionalities implemented include:
 Elasticsearch is a search engine based on the Lucene library and it has been used as a benchmark for a comparison study.<br>
 
 ## Overview
-<br>
 Building the search engine
 ![Building the search engine](/Images/workflow1.PNG)
-<br>
 Handling user query
 ![Handling user query](/Images/workflow2.PNG)
 ## Software Requirements:
