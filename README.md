@@ -2,7 +2,7 @@
 
 ## Software Requirements:
 
-Important Python Packages needed:
+### Important Python Packages needed:
 
 pickle
 spellchecker
@@ -11,6 +11,8 @@ word_tokenize
 PorterStemmer
 WordNetLemmatizer
 ElasticSearch
+
+## Steps
 
 
  1) Pre-Processing the input data and creating inverted index and saving to disk
