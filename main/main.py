@@ -30,6 +30,8 @@ lemmatizer = WordNetLemmatizer()
 translator = str.maketrans('', '', string.punctuation)
 spell = SpellChecker()
 
+fetch_time_list=[]
+
 class Node:
     def __init__(self, data, parent = None):
         self.data = list([data])
@@ -224,6 +226,8 @@ def preprocess_input(s):
     return tokens
 
 def printer(score_dict):
+    
+    start_time = time.time()
     count = len(score_dict)
     result = {"count":count,"row":[]}
     for i in range(min(100,len(score_dict))):
@@ -235,9 +239,13 @@ def printer(score_dict):
         obj["tf-idf"] = score_dict[i][1]
         obj = obj.to_json()
         result["row"].append(obj)
+    end_time = time.time()
+    fetch_time = round(end_time-start_time,3)*1000
+    fetch_time_list.append(fetch_time)
     return result
     
 def printer_phrase(score_dict):
+    start_time = time.time()
     count = len(score_dict)
     result = {"count":count,"row":[]}
     for i in range(min(100,len(score_dict))):
@@ -248,6 +256,9 @@ def printer_phrase(score_dict):
         obj = df.iloc[rowid]
         obj = obj.to_json()
         result["row"].append(obj)
+    end_time = time.time()
+    fetch_time = round(end_time-start_time,3)*1000
+    fetch_time_list.append(fetch_time)
     return result
     #Return the score and the contents of the actual row
     
@@ -357,8 +368,8 @@ def phrase(inp, word_d):
                     flag = 1
                 i += 1
             
-        if flag:
-            finallist.append(item)
+            if flag:
+                finallist.append(item)
     return printer_phrase(finallist)
     
 def prefix_query(inp, tree, word_d,flag):
@@ -438,6 +449,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
     elif querytype(inp) == 1:       #phrase query
         inp = inp[1:-1]
         inp = inp.split(' ')
+        inp = preprocess_input(inp)
         return phrase(inp,worddict_all)
 
     elif querytype(inp) == 2:       #wildcard mon* query
@@ -463,6 +475,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_url)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_url,flag)
@@ -481,6 +494,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_matchdatetime)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_matchdatetime,flag)
@@ -517,6 +531,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_show)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_show,flag)
@@ -535,6 +550,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_iashowid)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_iashowid,flag)
@@ -553,6 +569,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_iapreviewid)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_iapreviewid,flag)
@@ -573,6 +590,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_snippet)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_snippet,flag)
@@ -618,12 +636,12 @@ def perform_elastic_search(queries):
     
     for q in range(len(queries)):
         res = es.search(index=index,body=queries[q], size = 100)
-        s = es.nodes.stats()
+        '''s = es.nodes.stats()
         for i in s['nodes']:
             print("Node :", i)
             print("Fetch time (in ms):", s['nodes'][i]['indices']['search']['fetch_time_in_millis'])
             print("Query time (in ms):", s['nodes'][i]['indices']['search']['query_time_in_millis'])
-        
+        '''
         q_result = []
         
         for x in res['hits']['hits']:
@@ -701,7 +719,9 @@ def print_performance(query, our_results, our_time, elasic_results, elastic_time
                 #print("Prec and recall both are zero, so no F1")
             prec.append(p)
             rec.append(r)
-            
+            fetch_time = fetch_time_list[i]
+            query_time = round(our_time[i]-fetch_time,3)
+            print("Query Time = ",query_time,"Fetch Time = ",fetch_time)
             print("\nPrecision:", p, "\nRecall:", r, "\nF1:", f1, "\nTime taken by our search:", our_time[i], "\nTime taken by elastic search:", elastic_time[i])
             print()
         else:
@@ -757,7 +777,7 @@ if __name__ == "__main__":
 
     {
          "query": {
-         "match": { "Show": "Fox Friends" }}
+         "match": { "Show": "Parker" }}
     },
 
     ]
@@ -789,7 +809,7 @@ if __name__ == "__main__":
     ]
     '''
 
-    our_queries = ["president trump does not endorse climate change trump believes climate change is not real", "european agenda", "moz*", "Show=Fox Friends"]
+    our_queries = ["president trump does not endorse climate change trump believes climate change is not real", '"risk of catastrophic climate"', "moz*", "Show=Parker"]
     #our_queries = ["Snippet=will talk to scientists about climate change","IAPreviewThumb=https://archive.org/download/CNNW_20130401_230000_Erin_Burnett_OutFront/CNNW_20130401_230000_Erin_Burnett_OutFront.thumbs/CNNW_20130401_230000_Erin_Burnett_OutFront_000645.jpg", "IAShowID=CNNW_20130401_230000_Erin_Burnett_OutFront","Station=CNN"]
 
     elastic_results, elastic_time = perform_elastic_search(elastic_queries)
