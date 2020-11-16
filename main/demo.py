@@ -9,9 +9,9 @@ import sys
 import pickle
 import math
 #uncomment the next two lines when running it for the first time
-#import nltk
+import nltk
 #nltk.download('wordnet')
-#import nltk
+import nltk
 #nltk.download('punkt')
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -337,6 +337,7 @@ def phrase(inp, word_d):
         print("Empty")
         return {}
     
+    
     finallist = []
     for item in candidaterowlist:
         positionlist = []
@@ -357,8 +358,8 @@ def phrase(inp, word_d):
                     flag = 1
                 i += 1
             
-        if flag:
-            finallist.append(item)
+            if flag:
+                finallist.append(item)
     return printer_phrase(finallist)
     
 def prefix_query(inp, tree, word_d,flag):
@@ -438,7 +439,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
     elif querytype(inp) == 1:       #phrase query
         inp = inp[1:-1]
         inp = inp.split(' ')
-        inp = preprocess_input(inp)   
+        inp = preprocess_input(inp)
         return phrase(inp,worddict_all)
 
     elif querytype(inp) == 2:       #wildcard mon* query
@@ -464,6 +465,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_url)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_url,flag)
@@ -482,6 +484,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_matchdatetime)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_matchdatetime,flag)
@@ -500,6 +503,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_station)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_station,flag)
@@ -518,6 +522,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_show)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_show,flag)
@@ -536,6 +541,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_iashowid)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_iashowid,flag)
@@ -554,6 +560,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_iapreviewid)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_iapreviewid,flag)
@@ -574,6 +581,7 @@ def input_function(inp,worddict_all,worddict_url,worddict_matchdatetime,worddict
             elif(querytype(req)==1):
                 req = req[1:-1]
                 req = req.split(' ')
+                req = preprocess_input(req)
                 return phrase(req,worddict_snippet)
             elif(querytype(req)==2):
                 return prefix_query(req,tree,worddict_snippet,flag)
@@ -718,6 +726,7 @@ def print_performance(query, our_results, our_time, num_q):
 if __name__ == "__main__":
     
     print("Loading Necessary files...")
+    worddict_snippet = read_from_disk("snippet.txt")
     worddict_all = read_from_disk("all.txt")
     worddict_url = read_from_disk("url.txt")
     worddict_matchdatetime = read_from_disk("matchdatetime.txt")
@@ -725,76 +734,14 @@ if __name__ == "__main__":
     worddict_show = read_from_disk("show.txt")
     worddict_iashowid = read_from_disk("iashowid.txt")
     worddict_iapreviewthumb = read_from_disk("iapreviewthumb.txt")
-    worddict_snippet = read_from_disk("snippet.txt")
     tree = read_from_disk("twothreetreeall.txt")
     permuterm = read_from_disk("permutermall.txt")
     lengthdict = read_from_disk("length.txt")
     print("Files Loaded")
     
-    elastic_queries = [
-    {
-        "query": {
-            "query_string": {
-                "query":"president trump does not endorse climate change trump believes climate change is not real"
-            }
-        }
-    },
 
-    {
-        "query": {
-            "query_string": {
-                "query":"european agenda"
-            }
-        }
-    },
-
-    {
-        "query": {
-            "query_string": {
-                "query":"moz*"
-            }
-        }
-    },
-
-
-    {
-         "query": {
-         "match": { "URL": "https://archive.org/details/MSNBCW_20150821_010000_The_Rachel_Maddow_Show#start/2893/end/2928" }}
-    },
-
-    ]
-
-    '''
-    elastic_queries = [
-    {
-         "query": {
-         "match": { "Snippet": "will talk to scientists about climate change" }}
-    },
-
-    {
-        "query": {
-        "match": {
-                "IAPreviewThumb":"https://archive.org/download/CNNW_20130401_230000_Erin_Burnett_OutFront/CNNW_20130401_230000_Erin_Burnett_OutFront.thumbs/CNNW_20130401_230000_Erin_Burnett_OutFront_000645.jpg"
-        }
-        }
-    },
-
-    {
-         "query": {
-         "match": { "IAShowID": "CNNW_20130401_230000_Erin_Burnett_OutFront" }}
-    },
-
-    {
-         "query": {
-         "match": { "Station": "CNN" }}
-    },
-    ]
-    '''
-
-    #our_queries = ["president trump does not endorse climate change trump believes climate change is not real", "european agenda", "moz*", "URL=https://archive.org/details/MSNBCW_20150821_010000_The_Rachel_Maddow_Show#start/2893/end/2928"]
-    #our_queries = ["Snippet=will talk to scientists about climate change","IAPreviewThumb=https://archive.org/download/CNNW_20130401_230000_Erin_Burnett_OutFront/CNNW_20130401_230000_Erin_Burnett_OutFront.thumbs/CNNW_20130401_230000_Erin_Burnett_OutFront_000645.jpg", "IAShowID=CNNW_20130401_230000_Erin_Burnett_OutFront","Station=CNN"]
-
-    #elastic_results, elastic_time = perform_elastic_search(elastic_queries)
+    #our_queries = ["president trump climate change endorse real",'"change of plans"',"ed*gh","Show=Fox Friends","european agenda"]
+ 
     while(True):
        our_queries = []
        print("\nEnter a query")
